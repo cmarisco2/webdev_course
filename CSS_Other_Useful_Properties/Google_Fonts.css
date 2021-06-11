@@ -1,0 +1,25 @@
+/* Using font families provided by google via embedded link in the anchor tag in <head> */
+/* Fonts used: 'Roboto', 'Noto Sans JP' */
+body {
+    font-family: Noto Sans JP;
+}
+
+main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 0;
+}
+
+/* for the "h2" directly after the h1 */
+h1+h2 {
+    margin-top: 0;
+}
+
+h1,h2,h3 {
+    font-family: Roboto, sans-serif;
+    font-weight: 100;
+}

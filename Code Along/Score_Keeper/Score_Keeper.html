@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Keeper</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Score_Keeper.css">
+
+</head>
+
+<body>
+    <main>
+        <!-- Image with Caption -->
+        <figure>
+            <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                alt="Big Die Roll">
+            <figcaption>Game Score Keeper</figcaption>
+        </figure> <br>
+        <!-- Score Keeping Heading -->
+        <h1 id="score"><span id="p1">0</span> to <span id="p2">0</span></h1>
+        <!-- Directions. -->
+        <p id="directions">Use the buttons below to keep score.</p>
+        <!-- game total input. -->
+        <section class="game">
+            <label for="gameTotal" id="playLabel">Playing To</label>
+            <select name="gameTotal" id="gameTotal">
+                <option value="">---</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </section>
+        <div class="btnGroup">
+            <button id="btn1">+1 Player One</button>
+            <button id="btn2">+1 Player Two</button>
+            <button id="reset">Reset</button>
+        </div>
+
+
+
+    </main>
+
+
+
+
+
+    <script src="Score_Keeper.js"></script>
+</body>
+
+</html>

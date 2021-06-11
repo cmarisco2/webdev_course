@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor</title>
+</head>
+
+<body>
+    <h1>Constructor</h1>
+    <h2>Open The Console</h2>
+    <p>The <b>new</b> keyword does the following things:
+    <ol>
+        <li>
+
+            Creates a blank, plain JavaScript object.
+        </li>
+        <li>
+            Adds a property to the new object (__proto__) that links to the constructor function's prototype object
+            Properties/objects added to the construction function prototype are therefore accessible to all instances
+            created from the constructor function (using new).
+
+        </li>
+        <li>
+            Binds the newly created object instance as the this context (i.e. all references to this in the constructor
+            function now refer to the object created in the first step).
+
+        </li>
+        <li>
+            Returns this if the function doesn't return an object.
+
+        </li>
+
+    </ol>
+    </p>
+
+
+    <script src="constructor.js"></script>
+</body>
+
+</html>

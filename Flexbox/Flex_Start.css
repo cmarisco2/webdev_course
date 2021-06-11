@@ -1,0 +1,26 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#container {
+    width: 90%;
+    height: 1200px;
+    background-color: #003049;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    /* Creates the flex model */
+    display: flex;
+    /* Determines the orientation of the main axis */
+    flex-direction: column-reverse;
+    /* aligns content in reference to the main axis */
+    justify-content: space-evenly;
+}
+
+#container div {
+    width: 200px;
+    height: 200px;
+}

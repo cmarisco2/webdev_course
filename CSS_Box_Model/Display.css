@@ -1,0 +1,40 @@
+h1 {
+    background-color: palegoldenrod;
+    border: 1px solid black;
+    /* overrides the block element type to make it inline. */
+    display: inline;
+    /* useful for hiding info onscreen */
+    /* display: none; */
+}
+
+/* Can't adjust Width/Height with span as an Inline component */
+/* Would need to change its 'display' property. */
+span {
+    background-color: paleturquoise;
+    border: 1px solid black;
+    /* Width adjustment ignored since in-line element */
+    width: 100px;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+/* Width and height respected with block component */
+h2 {
+    background-color: palevioletred;
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+    margin: 20px;
+
+}
+
+div {
+    background-color: greenyellow;
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
+    display: inline-block;
+    margin: 50px;
+}

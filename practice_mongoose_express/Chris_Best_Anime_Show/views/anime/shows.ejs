@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Shows</title>
+</head>
+
+<body>
+    <h1>My Favorite Anime List:</h1>
+    <ul>
+        <% for(let show of shows) { %>
+            <li>
+                <a href="/shows/<%= show._id  %> ">
+                    <%= show.title %>
+                </a>
+            </li>
+            <% } %>
+    </ul>
+    <a href="/shows/new">Add Your Favorite Anime</a>
+</body>
+
+</html>

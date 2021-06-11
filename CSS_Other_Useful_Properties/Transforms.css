@@ -1,0 +1,66 @@
+h1 {
+    background-color: #2a9d8f;
+    color: #eae2b7;
+    border: 5px solid #264653;
+    width: 300px;
+    padding: 0.7em;
+    font-size: 1.8em;
+    text-align: center;
+    margin: 20px auto;
+    font-weight: lighter;
+    font-family: Courier;
+
+}
+
+h1:nth-of-type(2n){
+    background-color: #e9c46a;
+}
+
+h1:nth-of-type(3n) {
+    background-color: #f4a261;
+}
+
+h1:nth-of-type(4n) {
+    background-color: #e76f51;
+}
+/* Using Rotate transformation */
+section:first-of-type h1:nth-of-type(1){
+    /* transform-origin: top right; */
+    transform: rotate(45deg);
+}
+/* Using Scale transformation */
+section:first-of-type h1:nth-of-type(2){
+    transform: scale(0.5);
+}
+
+/* Using the Translate Transformation */
+section:first-of-type h1:nth-of-type(3){
+    transform: translateX(200px);
+}
+
+section:first-of-type h1:nth-of-type(4){
+    transform: translate(-100px, 35px);
+}
+
+/* Using the Skew transformartion */
+section:nth-of-type(2) h1:nth-of-type(1){
+    transform: skew(30deg);
+}
+
+section:nth-of-type(2) h1:nth-of-type(2){
+    transform: skew(20deg, 5deg);
+}
+
+/* Combining multiple transformations */
+section:nth-of-type(2) h1:nth-of-type(3){
+    transform: rotate(20deg) scale(1.4);
+}
+
+section:nth-of-type(2) h1:nth-of-type(4){
+    transform: translateX(-500px) rotate(0.5turn) scaleY(1.5);
+}
+
+/* Transforms applied to all the children of 2nd Section */
+section:nth-of-type(2) {
+    transform: scale(0.5) translateX(500px);
+}

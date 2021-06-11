@@ -1,0 +1,17 @@
+{
+  "name": "chris_best_anime_show",
+  "version": "1.0.0",
+  "description": "Anime List with Basic CRUD operations. Built with EJS, MongoDB, Mongoose, and Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Marisco",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.12.0"
+  }
+}

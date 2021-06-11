@@ -1,0 +1,9 @@
+/* Box Model */
+/* Setting Width Manually */
+/* Setting Height Manually */
+/* Setting background color for clear visibility in demo */
+div {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(0,100,190);
+}

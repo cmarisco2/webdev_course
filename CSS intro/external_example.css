@@ -1,0 +1,16 @@
+h2 {
+    color: indigo;
+    /* using rgb method */
+    background-color: rgb(89,151,0);
+}
+
+button {
+    color: red;
+    background-color: olivedrab;
+}
+
+p {
+    color: olive;
+    /* using hex for rgb values */
+    background-color:#a67c8c;
+}

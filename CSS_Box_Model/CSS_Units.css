@@ -1,0 +1,33 @@
+/* Relative: percentage Height & Width*/
+section {
+    background-color: #6d6887;
+    width: 800px;
+    height: 800px;
+}
+
+div {
+    background-color: #e5989b;
+    width: 70%;
+    height: 20%;
+}
+/* Relative: percentage Font-Size */
+h1 {
+    font-size: 40px;
+    border: 1px solid black;
+    line-height: 200%;
+}
+
+/* Relative: em Font-Size */
+/* h2 is child of article and doubles its font-size */
+/* p is also a child with a separate relative font-size */
+h2{
+    font-size: 2em;
+}
+
+article {
+    font-size: 20px;
+}
+
+p {
+    font-size: 1.1em;
+}

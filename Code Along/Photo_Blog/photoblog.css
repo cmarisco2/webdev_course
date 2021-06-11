@@ -1,0 +1,27 @@
+/* Initial strategy to place pictures: 
+Split them by width.
+Space them out by using margin.
+margin% = %left over from width/(sides of margin needed * # of images)
+ex]
+3 Images with a width of 30%.
+-> 10% left over.
+each image as 2 sides of margin (left and right) therefore divisor = 6.
+10%/6 = 1.666% */
+img {
+    width: 30%;
+    /* margin: 1.666%; */
+    margin: calc(10%/6);
+}
+
+nav {
+    border-bottom: 2px solid #3d3c3c;
+    font-size: 1.5em;
+    padding: 1.2em 0;
+    text-transform: uppercase;
+    width: 30%;
+    margin-left: calc(10%/6);
+    font-family: 'Raleway', sans-serif;
+}
+
+/* White space in the html doc between some in-line elements (img, span, etc) will add space in the doc itself.
+remove that space for calculations to work. */

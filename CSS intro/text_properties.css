@@ -1,0 +1,18 @@
+h1 {
+    text-align: center;
+    font-weight: normal;
+    text-decoration: chocolate wavy underline;
+    letter-spacing: 15px;
+    font-size: 75px;
+    font-family: fantasy, Arial;
+}
+
+/* using the text-decoration property to remove underlines from anchor tags */
+a {
+    text-decoration: none;
+}
+
+/* Line-height property used for double spacing */
+p {
+    line-height: 2;
+}

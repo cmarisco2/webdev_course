@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Demo</title>
+</head>
+
+<body>
+    <h1>Forms</h1>
+    <form action="Kayfabe">
+        <!-- Defaults to text if empty attribute. -->
+        <!-- Label assoc <input> id attr with the <label> for attr. -->
+        <p>
+            <label for="username">Enter a username:</label>
+            <input id="username" type="text" placeholder="username" name="name">
+        </p>
+        <p>
+            <label for="password">Enter a password:</label>
+            <input type="password" placeholder="enter a password" id="password" name="password">
+        </p>
+        <p>
+            <label for="color">Select a Color:</label>
+            <input type="color" id="color" name="color">
+        </p>
+        <p>
+            <label for="number">Enter a number:</label>
+            <input type="number" placeholder="enter a number" id="number" name="number">
+        </p>
+        <button>Submit</button>
+    </form>
+    <hr>
+    <h2>Custom Reddit Search Box</h2>
+    <form action="https://www.reddit.com/search">
+        <label for="Reddit Search">Search Reddit: </label>
+        <input type="text" name="q" placeholder="Reddit Search" id="Reddit Search" name="q">
+        <button>Submit</button>
+    </form>
+    <hr>
+    <h2>Custom Google Search Box</h2>
+    <form action="https://www.google.com/search">
+        <label for="google search">Search Google: </label>
+        <input type="text" name="q" placeholder="Google Search" id="google search">
+        <button>Submit</button>
+    </form>
+    <hr>
+    <h2>Custom YouTube Search</h2>
+    <!-- https://www.youtube.com/results?search_query=pokemon+competitive+battling+guide -->
+    <!-- Take the https://www.youtube.com/results as our action destination -->
+    <!-- action="https://www.youtube.com/results" -->
+    <!-- Take the search_query as the name attribute -->
+    <!-- name="search_query" -->
+    <!-- Bare bones version. -->
+    <form action="https://www.youtube.com/results">
+        <label for="youtube search">Search YouTube: </label>
+        <input type="text" name="search_query" id="youtube search" placeholder="YouTube Search">
+        <button>Submit</button>
+    </form>
+    <hr>
+    <h2>More Inputs!</h2>
+    <!-- checkboxes -->
+    <form action="pseudo destination">
+        <p>
+            <input type="checkbox" name="agree_tos" id="agree" checked>
+            <label for="agree">I agree to the Terms of Service</label>
+        </p>
+        <p>
+            <input type="radio" name="pokemon" id="charmander" value="fire type">
+            <label for="charmander">Charmander</label>
+            <input type="radio" name="pokemon" id="squirtle" value="water type">
+            <label for="squirtle">Squirtle</label>
+            <input type="radio" name="pokemon" id="bulbasaur" value="grass type">
+            <label for="bulbasaur">Bulbasaur</label>
+        </p>
+        <p>
+            <label for="meal-select">Reception Meal Selection</label>
+            <select name="meal" id="meal-select">
+                <option value="">---Please Select an Entree---</option>
+                <option value="Fish">Fish</option>
+                <option value="Chicken">Chicken</option>
+                <option value="Beef">Beef</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+            </select>
+        </p>
+        <p>
+            <label for="cheese">Amount of Cheese: </label>
+            <input type="range" id="cheese" min="0" max="10" name="cheese_level">
+        </p>
+        <p>
+            <label for="comments">Please leave a comment: </label><br>
+            <textarea name="comments" id="comments" cols="40" rows="10" placeholder="Write Comments Here"></textarea>
+        </p>
+        <button>Submit</button>
+    </form>
+    <hr>
+    <h2>Validations Demo</h2>
+    <form action="/dummy">
+        <label for="first">Enter First Name</label>
+        <input type="text" id="first" name="firstName" required>
+        <p>
+            <label for="username">Enter a valid username: </label>
+            <input type="text" id="username" name="username" minlength="5" maxlength="15" required>
+        </p>
+        <button>Submit</button>
+    </form>
+</body>
+
+</html>

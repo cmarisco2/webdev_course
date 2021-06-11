@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Anime</title>
+</head>
+
+<body>
+    <h1>Update Anime Information: </h1>
+    <form action="/shows/<%= foundShow._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" name="title" placeholder="title" id="title" value="<%= foundShow.title %>">
+            <br>
+            <br>
+            <label for="score">Score:</label>
+            <input type="number" id="score" name="score" placeholder="Enter a Value" value="<%= foundShow.score %>">
+            <br>
+            <br>
+            <label for="author">Author:</label>
+            <input type="text" name="author" id="author" placeholder="Author" value="<%= foundShow.author %>">
+        </div>
+        <br>
+        <section>
+            <textarea name="description" id="description" cols="30" rows="5"><%= foundShow.description %> 
+            </textarea>
+        </section>
+        <button>Submit</button>
+    </form>
+    <a href="/shows/<%= foundShow._id %>">Cancel</a>
+</body>
+
+</html>

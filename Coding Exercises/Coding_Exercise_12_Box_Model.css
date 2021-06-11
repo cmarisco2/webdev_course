@@ -1,0 +1,29 @@
+/* The Instructions */
+
+/* Card Div 
+    width = 210px
+    border color = gray and border width = 1px
+    border-radius is 5px (rounding)
+    center text alignment
+
+*/
+
+/* Image
+    width = 200px
+    border radius = 50% (circular)
+    border - style = solid, color rgb(236, 183, 191), border width = 5px
+*/
+
+
+.card {
+    width: 210px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: center;
+}
+img {
+    width: 200px;
+    border: 5px solid rgb(236, 183, 191);
+    border-radius: 50%;
+}
+

@@ -1,0 +1,22 @@
+section {
+    width: 500px;
+    height: 500px;
+    background-color: magenta;
+    border: 1px solid black;
+}
+
+#rgba {
+    width: 50%;
+    height: 50%;
+    /* background-color: white; */
+    /* using rgba for white with some transparency */
+    background-color: rgba(255, 255, 255, .65);
+}
+
+#opacity {
+    width: 50%;
+    height: 50%;
+    /* Using Opacity to effect transparency of all decendent elements */
+    background-color: yellow;
+    opacity: 0.3;
+}

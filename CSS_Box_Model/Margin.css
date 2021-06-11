@@ -1,0 +1,58 @@
+/* Box Model */
+/* Setting Width Manually */
+/* Setting Height Manually */
+/* Setting background color for clear visibility in demo */
+div {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(0,100,190);
+}
+h1 {
+    background-color: pink;
+    width: 100px;
+    padding-left: 100px;
+    padding-top: 50px;
+}
+/* Margin added as well */
+#div1 {
+    background-color: salmon;
+    /* Adds 5px to all sides of the box. */
+    border-width: 5px;
+    border-color: black;
+    border-style: solid;
+    /* Resizes border to conform with original box dimensions. */
+    /* Keeps the box 200px by 200px with the Border */
+    box-sizing: border-box;
+    margin-left: 50px;
+    margin-bottom: 100px;
+}
+
+#div2 {
+    background-color: seagreen;
+    border-color: #f00a0a;
+    border-width: 3px;
+    border-style: dashed;
+    /* Sets a variant for a portion of the border. */
+    border-right-style: inset;
+    padding-right: 50px;
+    margin: 200px;
+}
+
+#div3 {
+    background-color: silver;
+    /* Shorthand syntax for the border */
+    /* width|style|color  */
+    /* Can leave empty the args not needed but maintain the order. */
+    border: 4px solid black;
+    /* use cascading to set specific property */
+    border-left-style: dashed;
+    border-radius: 50%;
+}
+
+button {
+    padding: 10px 20px 30px 40px;
+}
+
+body {
+    margin: 0;
+}

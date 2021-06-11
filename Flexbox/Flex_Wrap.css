@@ -1,0 +1,26 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#container {
+    width: 90%;
+    height: 500px;
+    background-color: #003049;
+    margin: 0 auto;
+    border: 5px solid #003049;
+    /* Creates the flex model */
+    display: flex;
+    /* Direction effects main axis, reversing affects the cross axis */
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#container div {
+    width: 600px;
+    height: 200px;
+}

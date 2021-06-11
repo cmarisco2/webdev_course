@@ -1,0 +1,16 @@
+{
+  "name": "language_guesser",
+  "version": "1.0.0",
+  "description": "Detects the language of text string entered via CLI and outputs the language of the detected string to the console.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Marisco",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "franc-min": "^5.0.0",
+    "langs": "^2.0.0"
+  }
+}

@@ -1,0 +1,92 @@
+/* Universal Selector */
+
+/* * {
+    background-color: pink;
+} */
+
+/* element selector */
+button {
+    font-size: 20px;
+    background-color: #a8dadc;
+}
+
+/* Selector List */
+
+h1, h2 {
+    color: #1d3557;
+}
+
+body {
+    background-color: #f1faee;
+}
+/* id tag selector for "id='signup';"*/
+#signup {
+    color: #f1faee;
+    background-color: #1d3557;
+}
+
+span {
+    color: #457b9d;
+}
+/* class style selector for "class = 'tag';" */
+.tag {
+    color: #f1faee;
+    background-color: #e63946;
+    font-size: 16px;
+}
+
+/* decendant selector using class>anchor as the nested relation*/
+/* for every anchor tag nested. Not just one. */
+/* no comma, therefore nested. */
+.post a {
+    color: #457b9d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+footer a {
+    color: #0f0
+}
+
+/* plus combinator means that for the RHS selector that immediately follows the LHS selector */
+
+input + button {
+    background-color: pink;
+}
+
+h2 + button {
+    font-size: 20px;
+    background-color: magenta;
+}
+
+/* direct child */
+/* selects only the 1 level down elements of given type. */
+
+footer > a {
+    color: mediumblue;
+}
+
+/* attribute selector 
+utilizes the selector[attribute = "value"]*/
+input[type = "password"] {
+    color: peru;
+}
+
+section[class = "post"]{
+    background-color: yellow;
+}
+
+.post button:hover {
+    color: teal;
+    background-color: tomato;
+}
+
+/* Pseudo class 
+utilizes the selector + ':' with a given state.*/
+.post a:hover {
+    text-decoration: underline;
+}
+
+.post button:active {
+    background-color: whitesmoke;
+}

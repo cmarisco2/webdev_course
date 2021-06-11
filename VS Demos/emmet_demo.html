@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmet Demo</title>
+</head>
+
+<body>
+    <!-- using the emmet abbreviation "main>section>h1" then "TAB" to generate the next bit of code -->
+    <main>
+        <section>
+            <h1>Generated via "main>section>h1" and "TAB"</h1>
+        </section>
+    </main>
+
+    <!-- Generated using nav>ul>li*5>a[href=www.$.com]{click me} -->
+    <!-- * Multiplication allows for 5 copies of the li tag, with the anchor nested inside each one. -->
+    <!-- a[] notation allows accesing and changing an attribute -->
+    <!-- $ allows for iterative numbering with each copy -->
+    <!-- {} Text brackets allow for the text between the tags to be inserted on the level it is instantiated. -->
+    <!-- Generated using nav>ul>li*5>a[href=www.$.com]{click me} -->
+    <nav>
+        <ul>
+            <li><a href="www.1.com">Click Me</a></li>
+            <li><a href="www.2.com">Click Me</a></li>
+            <li><a href="www.3.com">Click Me</a></li>
+            <li><a href="www.4.com">Click Me</a></li>
+            <li><a href="www.5.com">Click Me</a></li>
+        </ul>
+    </nav>
+</body>
+
+</html>
