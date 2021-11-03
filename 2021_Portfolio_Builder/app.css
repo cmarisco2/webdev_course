@@ -10,6 +10,13 @@ section {
 
 div {
   background-color: #fec5bb;
-  height: 50%;
-  width: 50%;
+  /* position: static; */
+  display: inline-block;
+  height: 40%;
+  width: 40%;
+}
+
+#second {
+  position: relative;
+  top: 10px;
 }
