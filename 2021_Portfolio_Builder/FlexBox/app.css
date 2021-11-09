@@ -1,0 +1,19 @@
+h1 {
+  text-align: center;
+}
+
+#container {
+  height: 600px;
+  width: 90%;
+  background-color: #003049;
+  margin: 0 auto;
+  border: 5px solid #003049;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div {
+  height: 100px;
+  width: 100px;
+}
