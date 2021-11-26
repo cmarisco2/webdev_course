@@ -1,4 +1,8 @@
+// Using 2 NPM Packages for testing package.json
+// If node_modules/ is deleted -> "npm install" at CLI will install dependencies from package.json
+
 const figlet = require('figlet');
+const colors = require('colors');
 
 figlet('Hello World!!', function(err, data) {
     if (err) {
@@ -6,5 +10,5 @@ figlet('Hello World!!', function(err, data) {
         console.dir(err);
         return;
     }
-    console.log(data)
+    console.log(data.green);
 });
