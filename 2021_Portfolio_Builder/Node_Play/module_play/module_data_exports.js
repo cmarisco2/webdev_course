@@ -1,3 +1,6 @@
+/**
+ * Export Module
+ */
 const favoritNumber = 2;
 
 const printMyFav = (value) => {
