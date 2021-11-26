@@ -25,6 +25,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+/**
+ * Serving Static Assets (like Styles) with middleware: 
+ * --ex: express.static('public') within app.use()
+ * Set the directory similar to views. Done in 1 step below
+ */
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 //Basic Example: '/' home route views the home.ejs html page
 app.get('/', (req, res) => {
