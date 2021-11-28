@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Comments</h1>
+    <ul>
+        <% for(let object of comments){ %>
+            <li>
+                "<%= object.comment %>" - <b>
+                        <%=object.username %>
+                    </b>
+                    <!-- ! Link to the "Show Route" on the Index Page -->
+                    <a href="/comments/<%= object.id %> ">details</a>
+            </li>
+            <% } %>
+    </ul>
+    <!-- ? Good to refer to other routes for quick redirecting. -->
+    <a href="/comments/new">Create New Comment</a>
+</body>
+
+</html>

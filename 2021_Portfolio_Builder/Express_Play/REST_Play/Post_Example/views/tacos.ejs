@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Example</title>
+</head>
+
+<body>
+    <h1>Submissions for Post:</h1>
+    <form action="/tacos" method="post">
+        <input type="text" name="tacos" placeholder="taco meat">
+        <input type="number" name="qty">
+        <button>Submit</button>
+        <ul>
+            <% if(tacos && qty){ %>
+                <li>You've selected <%= qty %>
+                        <%= tacos %> tacos </li>
+                <% } %>
+        </ul>
+    </form>
+</body>
+
+</html>

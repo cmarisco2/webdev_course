@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Comment</title>
+</head>
+
+<body>
+    <h1>New Comment</h1>
+    <!--? action is for submission address. method is for type of submission(get/post)  -->
+    <form action="/comments" method="post">
+        <section>
+            <label for="username">Enter Username</label>
+            <input type="text" name="username" id="username" placeholder="username">
+        </section>
+        <section>
+            <label for="comment">Enter Your Comment</label>
+            <br>
+            <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
+        </section>
+        <button>Submit</button>
+    </form>
+    <a href="/comments">Home</a>
+</body>
+
+</html>
