@@ -49,7 +49,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 //! Array of Objects as a pseudo database of comments.
-const comments = [
+let comments = [
     {
         id: uuid(),
         username: 'Eren Jaegar',
@@ -78,15 +78,15 @@ app.get('/', (req, res)=>{
 });
 
 /**
- *  Index of all comments 
+ *  ?Index of all comments 
  ***/
 app.get('/comments', (req, res) => {
     res.render('comments/index', {comments});
 });
 
 
-//Create(GET) New Form & Submit(Post) New Form:
-//Ensure to REDIRECT in the POST to not resubmit the form!
+//? Create(GET) New Form & Submit(Post) New Form:
+//* Ensure to REDIRECT in the POST to not resubmit the form!
 
 app.get('/comments/new', (req, res) => {
     res.render('comments/new');
@@ -97,10 +97,10 @@ app.post('/comments', (req, res) => {
     res.redirect('/comments');
 });
 
-// Update a comment -> Patch Request
-// * Patch vs Put: Patch (updates what's there) Put (replaces the whole thing)
-// ? NEED to Modify Form (obtained via Get request) to handle a Patch Method
-// ? Pre-populate the form via finding the comment and rendering it in the form.
+//* Update a comment -> Patch Request
+//* Patch vs Put: Patch (updates what's there) Put (replaces the whole thing)
+//? NEED to Modify Form (obtained via Get request) to handle a Patch Method
+//? Pre-populate the form via finding the comment and rendering it in the form.
 //!Need to install method-override package for express to patch via html form.
 app.patch('/comments/:id', (req, res) => {
     const { id } = req.params;
@@ -116,6 +116,16 @@ app.get('/comments/:id/edit', (req, res) => {
     const { username, comment } = commentObject;
     res.render('comments/edit', {comment, username, id});
 });
+
+//* DELETE:
+//* Just find and delete the comment from the database(array in this case)
+//* Redirect to the index of all comments.
+//* Add a Form that calls the delete method with a delete button on the 'Show' page
+app.delete('/comments/:id', (req, res) => {
+    const { id } = req.params;
+    comments = comments.filter(c => c.id !== id);
+    res.redirect('/comments');
+}); 
 
 //!Make sure pattern matching addresses are put AFTER explicit ones!
 //! -ex: /comments/new will not be reached, unless it's BEFORE /comments/:id
