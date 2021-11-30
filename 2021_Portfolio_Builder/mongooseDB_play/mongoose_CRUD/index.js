@@ -27,17 +27,17 @@ const pokemon = new Movie({title: 'Pokemon Movie 2000', year: 2000, score: 9000,
 
 //? Needed to Save to DB. Note ONLY one instance. What about adding multiple?
 //returns promise
-//* pokemon.save();
+// pokemon.save();
 
 // Note: 'save' not needed since inserting many is explicitly called. needed above to save class object created.
-Movie.insertMany([
-    {title: 'Cowboy Bebop', year: 2001, score: 9.8, rating: 'R'}, 
-    {title: 'The Last Dance', year: 2021, score: 10, rating: 'PG-13'},
-    {title: 'Oscar in Wonderland', year: 2050, score: 1.0, rating: 'G'}
-])
-    .then((data) => {
-        console.log("It worked", data);
-    })
+//* Movie.insertMany([
+//*     {title: 'Cowboy Bebop', year: 2001, score: 9.8, rating: 'R'}, 
+//*     {title: 'The Last Dance', year: 2021, score: 10, rating: 'PG-13'},
+//*     {title: 'Oscar in Wonderland', year: 2050, score: 1.0, rating: 'G'}
+//* ])
+//*     .then((data) => {
+//*         console.log("It worked", data);
+//*     })
 
 //! CRUD - READ (Finding) 
 // * use Movie.find({}).then(data => //do something )
@@ -50,3 +50,4 @@ Movie.insertMany([
 //! CRUD - DELETE
 // * Movie.remove({title: 'Pokemon Movie 2000'}).then(msg => console.log(msg)) 
 //? Note: msg is a report, doesn't return the deleted document and 'remove()' is depracated 
+// * Movie.findOneAndDelete({title: 'Pokemon Movie 2000'}).then(movie => console.log(movie))
