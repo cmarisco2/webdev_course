@@ -10,6 +10,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
+const Product = require('./models/product');
 
 
 async function main() {
