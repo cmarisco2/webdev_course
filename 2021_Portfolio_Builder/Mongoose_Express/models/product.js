@@ -20,6 +20,8 @@ const productSchema = new mongoose.Schema({
     }
 });
 
+//? To access enum values from the model:
+//? Product.schema.path('category').enumValues
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;

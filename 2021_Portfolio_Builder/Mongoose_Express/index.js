@@ -37,8 +37,11 @@ app.use(methodOverride('_method'));
 //! Note: Data From the Product Model & DB (req from mongoose asynchronously OR then/catch)
 //* async and await:
 //* INDEX
+//! Add Query String for filtering in the INDEX Route
 app.get('/products', async (req, res) => {
-    const products = await Product.find({}); //*array of product objects from DB
+    const{ category } = req.query;
+    //*array of product objects from DB
+    category == null ? products = await Product.find({}) : products = await Product.find({category})
     res.render('products/index', { products });
 });
 
