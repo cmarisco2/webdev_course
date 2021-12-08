@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const Campground = require('./models/campground');
 const { findByIdAndUpdate } = require('./models/campground');
 
@@ -15,6 +16,7 @@ main()
     .catch(err => console.log(err));
 //*End of Mongoose Connection Setup.
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
