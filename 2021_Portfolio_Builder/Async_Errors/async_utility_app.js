@@ -1,14 +1,28 @@
 /**
  * 
- ** Async Error Handling 
- *? Use 'try/catch + next' with error handling code at bottom.
- *? --also, can still throw errors within the try/catch if anticipated.
- ** --USE ON ALL ASYNC FUNCTIONS
- * 
- ** Duplicate Directory for testing
- ** Connect to "farmStand2" instead of farmStand
+ ** Use Wrapper Function on Async Functions to handle errors
+ *
+ *! All Async Error Handling Replaced with Utility function in this app
  */
-//! Setup - Start
+
+
+/**
+ *? IDEA:
+ *
+ *? -Pass fn as arg
+ *? -Return new function definition -> calls arg fn w/ its desired args in its body
+ *? -Append the catch framework wanted for error handling
+ *
+ ** function WrapAsync(fn){
+ **    return function(req, res, next){
+ **      fn(req, res, next).catch(e => next(e))
+ **    }
+ ** }
+ *  
+ */
+
+
+//* Setup - Start
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -30,103 +44,80 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
-//! Setup - End
+//* Setup - End
 
-
-app.get('/', (req, res) => {
-    res.send("Products Home Page");
-})
-
+//!Function Wrapper for Async Errors!:
+//?NOTE: THIS IS A GREAT EXAMPLE OF MUTATING A FUNCTION AND HANDING IT BACK
+//* Layer 1 has fn as arg
+const wrapAsync = function(fn) {
+    //* Layer 2 has the fn's args...as args (returned w/ anonymous function)
+    return function(req, res, next){
+        //* Layer 3 calls the fn arg, with the passed args, in body + catch/handlers
+        fn(req, res, next).catch(e => next(e));
+    }
+}
 
 //?Routes:
-//! Note: Data From the Product Model & DB (req from mongoose asynchronously OR then/catch)
-//* async and await:
-//* INDEX
-//! Add Query String for filtering in the INDEX Route
-app.get('/products', async (req, res, next) => {
-    try {
-        const{ category } = req.query;
-        //*array of product objects from DB
-        category == null ? products = await Product.find({}) : products = await Product.find({category})
-        res.render('products/index', { products });
-    } catch(err){
-        next(err);
-    }
-});
 
-//* CREATE: 1) GET FORM 2) POST FORM (NEED TO USE PARSE MIDDLEWARE FOR POSTING)
+//* HOME
+app.get('/', (req, res) => {
+    res.send("Products Home Page");
+});
+//* INDEX w/ ASYNC UTILITY (FUNCTION WRAPPER TO ADD ASYNC ERROR HANDLING!)
+//? Errors Handled via wrapAsync(fn) -> fn().catch(e => next(e))
+app.get('/products', wrapAsync(async (req, res, next) => {
+    const{ category } = req.query;
+    //*array of product objects from DB
+    category == null ? products = await Product.find({}) : products = await Product.find({category})
+    res.render('products/index', { products });
+}));
+
+//* CREATE: 
 app.get('/products/new', (req, res) => {
     res.render('products/new');
 });
-//! Validation Error Handling: ex --submitting an empty form.
-//* use try/catch
-//* pass error to next()
-//? Handles the Mongoose Errors via try/catch
-app.post('/products', async (req, res, next) => {
-    try {
-        const {name, price, fruit, category} = req.body;
-        const newProduct = new Product({name, price, fruit, category});
-        await newProduct.save();
-        res.redirect('/products');
-    } catch (err) {
-        next(err);
-    }
-});
+//? Errors Handled via wrapAsync(fn) -> fn().catch(e => next(e))
+app.post('/products', wrapAsync(async (req, res, next) => {
+    const {name, price, fruit, category} = req.body;
+    const newProduct = new Product({name, price, fruit, category});
+    await newProduct.save();
+    res.redirect('/products');
+}));
 
-
-//! Async Error Handling: (comes from the docs)
-//* NEED "next(err)" for async errors && next as a parameter for the route
-//* Use conditional for the promise/thenable return.
 //* SHOW/DETAILS
-app.get('/products/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const foundProduct = await Product.findById(id);
-        if(!foundProduct){
-            return next(new AppError(500, "Product Not Found")); //!RETURN Stops the res.render from attempting to run
-        }
-        res.render('products/show', {foundProduct});
-    } catch(err) {
-        next(err);
+//? Errors Handled via wrapAsync(fn) -> fn().catch(e => next(e))
+app.get('/products/:id', wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const foundProduct = await Product.findById(id);
+    if(!foundProduct){ 
+        return next(new AppError(500, "Product Not Found")); //!RETURN Stops the res.render from attempting to run
     }
-});
+    res.render('products/show', {foundProduct});
+}));
 
-//* UPDATE: 1) GET FORM w/Data Filled Out 2) Change/PUTorPATCH/Redirect
-
-app.get('/products/:id/edit', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const foundProduct = await Product.findById(id);
-        if(!foundProduct){
-            return next(new AppError(500, "No Such Product Found"));
-        }
-        res.render('products/edit', {foundProduct});
-    } catch(err) {
-        next(err);
+//* UPDATE:
+//? Errors Handled via wrapAsync(fn) -> fn().catch(e => next(e))
+app.get('/products/:id/edit', wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const foundProduct = await Product.findById(id);
+    if(!foundProduct){
+        return next(new AppError(500, "No Such Product Found"));
     }
-});
-app.put('/products/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const foundProduct = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
-        res.redirect(`/products/${foundProduct._id}`);
-    } catch(err) {
-        next(err);
-    }
-});
+    res.render('products/edit', {foundProduct});
+}));
+app.put('/products/:id', wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const foundProduct = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
+    res.redirect(`/products/${foundProduct._id}`);
+}));
 
 //* DELETE: -add 'form' to SHOW page and override its action. delete from db and redirect
-app.delete('/products/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        await Product.findByIdAndDelete(id);
-        res.redirect('/products');
-    } catch(err) {
-        next(err);
-    }
-});
-
-
+//? Errors Handled via wrapAsync(fn) -> fn().catch(e => next(e))
+app.delete('/products/:id', wrapAsync(async (req, res, next) => {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.redirect('/products');
+}));
 
 
 //? All Purpose Error Handler
