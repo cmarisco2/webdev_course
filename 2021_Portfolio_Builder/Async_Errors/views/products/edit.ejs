@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= foundProduct.name %>
+    </title>
+</head>
+
+<body>
+    <h1>Edit <%= foundProduct.name %>
+    </h1>
+    <form action="/products/<%=foundProduct._id %>?_method=PUT" method="post">
+        <label for="name">Enter Product: </label>
+        <input type="text" name="name" id="name" placeholder="Product Name" value="<%= foundProduct.name %> ">
+        <label for="price">Price (Unit): </label>
+        <input type="number" name="price" id="price" placeholder="price" value="<%= foundProduct.price %>">
+        <label for="category">Select a Category</label>
+        <!--? To Have Pre-selected options, vid 402 show inelegant solution  -->
+        <select name="category" id="category">
+            <option value="fruit">fruit</option>
+            <option value="vegetable">vegetable</option>
+            <option value="dairy">dairy</option>
+        </select>
+        <button>Add Product</button>
+    </form>
+    <a href="/products/<%=foundProduct._id%> ">Back To Product</a>
+</body>
+
+</html>
