@@ -119,6 +119,10 @@ app.delete('/products/:id', wrapAsync(async (req, res, next) => {
     res.redirect('/products');
 }));
 
+app.use((err, req, res, next) => {
+    console.log(err.name);
+    next(err);
+})
 
 //? All Purpose Error Handler
 app.use((err, req, res, next) => {
