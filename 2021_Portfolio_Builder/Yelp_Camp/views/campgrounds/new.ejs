@@ -5,37 +5,38 @@
         <!-- *col-6 (half space of 12 units) offset-3 (starts 3 units from left i.e middle) -->
         <div class="col-6 offset-3">
 
-            <form action="/campgrounds" method="post">
+            <form action="/campgrounds" method="post" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title:</label>
                     <!--! Allows Grouping all under campground as a property: -->
                     <!--? --ex: name = "campground[title]"  -->
-                    <input class="form-control" type="text" id="title" name="campground[title]">
+                    <input class="form-control" type="text" id="title" name="campground[title]" required>
+                    <div class="valid-feedback">Looks Good!</div>
                 </div>
                 <!--* Form Stylings from Docs, generally all elements in a div with margin -->
                 <!--* in whichever segement they share (middle), classes added for styles -->
                 <div class="mb-3">
                     <label class="form-label" for="location">Location:</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]">
+                    <input class="form-control" type="text" id="location" name="campground[location]" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="image">Image URL:</label>
-                    <input class="form-control" type="text" id="image" name="campground[image]">
+                    <input class="form-control" type="text" id="image" name="campground[image]" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="price"> Campground Price</label>
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">$</span>
                         <input class="form-control" type="text" name="campground[price]" id="price" placeholder="0.00"
-                            aria-describedby="price-label">
+                            aria-describedby="price-label" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="description">Description:</label>
-                    <textarea class="form-control" type="text" id="description"
-                        name="campground[description]"></textarea>
+                    <textarea class="form-control" type="text" id="description" name="campground[description]"
+                        required></textarea>
                 </div>
 
                 <div class="mb-3">
