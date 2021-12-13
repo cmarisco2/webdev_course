@@ -6,15 +6,17 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Campground = require('./models/campground');
 const { findByIdAndUpdate } = require('./models/campground');
+const ExpressError = require('./utilities/ExpressError');
+const catchAsync = require('./utilities/catchAsync');
 
-//*Sets Up Mongoose Connection
+//* Sets Up Mongoose Connection
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/yelp-camp');
 }
 main()
     .then(() => console.log('connected to Yelp-Camp Database on MongoDB'))
     .catch(err => console.log(err));
-//*End of Mongoose Connection Setup.
+//* End of Mongoose Connection Setup.
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -28,56 +30,71 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-//*INDEX
-app.get('/campgrounds', async (req, res) => {
+//* INDEX
+app.get('/campgrounds', catchAsync(async(req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
-});
+}));
 
 
-//*CREATE
+//* CREATE
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 });
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', catchAsync(async (req, res) => {
     //?Need to use middleware to know how to parse 'req.body'
     //?Note: req.body.campground is an object => constructor doesn't require '{}'
     //*We Know that campground is posted in the body from 'new' form
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
-});
+}));
 
-//*SHOW
-app.get('/campgrounds/:id', async (req, res) => {
+//* SHOW
+app.get('/campgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     res.render('campgrounds/show', { campground });
-});
+}));
 
-//*EDIT
-app.get('/campgrounds/:id/edit', async (req, res) => {
+//* EDIT
+app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     res.render('campgrounds/edit', { campground });
-});
-app.put('/campgrounds/:id', async (req, res) => {
+}));
+app.put('/campgrounds/:id', catchAsync(async (req, res) => {
     //INCORRECT -> Need to update NOT CREATE
     // const campground = new Campground(req.body.campground);
     // await campground.save();
     //?Get id from params. new data in the req.body. use spread operator to send as 2nd arg to findByIdAndUpdate
     const campground = await Campground.findByIdAndUpdate(req.params.id, {...req.body.campground});
     res.redirect(`/campgrounds/${campground._id}`);
-});
+}));
 
-//*DELETE -> sent via form w/button, overrided method, on existing form page (like SHOW)
-app.delete('/campgrounds/:id', async (req, res) => {
+//* DELETE -> sent via form w/button, overrided method, on existing form page (like SHOW)
+app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
+}));
+
+
+//! Throws Error if not route has been hit yet -> Goes to Handler below
+app.all('*', (req, res, next) => {
+    next(new ExpressError(404, "Page Not Found"));
+});
+//? Error Handler:
+//* 1 - app.all() for any routes that aren't anticipated
+//* 2 - Custom Error Class --> throw in functions for specific cases we want to handle (i.e. empty query string or no req.body etc)
+//* 3 - Try/Catch/Next OR --> mutate functions (Async Catching Errors Utility)
+//* 4 - Catch-All Error Handler (see below: AFTER errors thrown to next(err))
+app.use((err, req, res, next) => {
+    const { status = 500, message = "Something Went Wrong" } = err;
+    res.status(status).send(message);
 });
 
-//*Sets Up Listening Port For Web App
+//* Sets Up Listening Port For Web App
 app.listen(3000, () => {
     console.log("Listening on Port 3000");
 });
