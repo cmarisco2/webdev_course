@@ -89,9 +89,11 @@ app.all('*', (req, res, next) => {
 //* 2 - Custom Error Class --> throw in functions for specific cases we want to handle (i.e. empty query string or no req.body etc)
 //* 3 - Try/Catch/Next OR --> mutate functions (Async Catching Errors Utility)
 //* 4 - Catch-All Error Handler (see below: AFTER errors thrown to next(err))
+//* ---use render() to utilize a ejs template
 app.use((err, req, res, next) => {
-    const { status = 500, message = "Something Went Wrong" } = err;
-    res.status(status).send(message);
+    const { status = 500 } = err;
+    if(!err.message) err.message = "Something Went Wrong";
+    res.status(status).render('error', { err });
 });
 
 //* Sets Up Listening Port For Web App
