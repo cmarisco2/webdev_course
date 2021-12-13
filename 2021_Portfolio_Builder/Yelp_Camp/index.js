@@ -8,6 +8,8 @@ const Campground = require('./models/campground');
 const { findByIdAndUpdate } = require('./models/campground');
 const ExpressError = require('./utilities/ExpressError');
 const catchAsync = require('./utilities/catchAsync');
+const Joi = require('joi');
+const { campgroundSchema } = require('./validationSchemas/schemas');
 
 //* Sets Up Mongoose Connection
 async function main() {
@@ -25,6 +27,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
+//* Middleware for validating campgrounds. Add as argument to desired routes. next()
+const validateCampground = (req, res, next) => {
+    const { error } = campgroundSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(400, msg);
+    } else {
+        next();
+    }
+};
+
 //?ROUTES:
 app.get('/', (req, res) => {
     res.render('home');
@@ -41,10 +54,11 @@ app.get('/campgrounds', catchAsync(async(req, res) => {
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 });
-app.post('/campgrounds', catchAsync(async (req, res) => {
-    //?Need to use middleware to know how to parse 'req.body'
-    //?Note: req.body.campground is an object => constructor doesn't require '{}'
-    //*We Know that campground is posted in the body from 'new' form
+app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
+    //? Need to use middleware to know how to parse 'req.body'
+    //? Note: req.body.campground is an object => constructor doesn't require '{}'
+    //* We Know that campground is posted in the body from 'new' form
+
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
@@ -63,7 +77,7 @@ app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
     const campground = await Campground.findById(id);
     res.render('campgrounds/edit', { campground });
 }));
-app.put('/campgrounds/:id', catchAsync(async (req, res) => {
+app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
     //INCORRECT -> Need to update NOT CREATE
     // const campground = new Campground(req.body.campground);
     // await campground.save();
@@ -90,6 +104,7 @@ app.all('*', (req, res, next) => {
 //* 3 - Try/Catch/Next OR --> mutate functions (Async Catching Errors Utility)
 //* 4 - Catch-All Error Handler (see below: AFTER errors thrown to next(err))
 //* ---use render() to utilize a ejs template
+//* 5 - Joi (server-side validations of schema)
 app.use((err, req, res, next) => {
     const { status = 500 } = err;
     if(!err.message) err.message = "Something Went Wrong";
