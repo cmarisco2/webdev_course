@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= foundProduct.name %>
+    </title>
+</head>
+
+<body>
+    <h1>Show <%= foundProduct.name %> Details: </h1>
+    <ul>
+        <li>Price: $<%= foundProduct.price %>
+        </li>
+        <!-- Add Query String to the SHOW page -->
+        <li>Category: <a href="/products?category=<%=foundProduct.category%>">
+                <%= foundProduct.category %>
+            </a>
+        </li>
+    </ul>
+    <a href="/products">All Products</a>
+    <br>
+    <a href="/products/<%=foundProduct._id %>/edit">Edit <%= foundProduct.name %> </a>
+
+    <form action="/products/<%=foundProduct._id%>?_method=Delete" method="post">
+        <button>Delete <%= foundProduct.name %> </button>
+    </form>
+
+</body>
+
+</html>
