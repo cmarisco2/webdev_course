@@ -8,8 +8,8 @@ const Campground = require('./models/campground');
 const { findByIdAndUpdate } = require('./models/campground');
 const ExpressError = require('./utilities/ExpressError');
 const catchAsync = require('./utilities/catchAsync');
-const Joi = require('joi');
 const { campgroundSchema } = require('./validationSchemas/schemas');
+const Review = require('./models/review');
 
 //* Sets Up Mongoose Connection
 async function main() {
