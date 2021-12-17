@@ -93,6 +93,14 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds');
 }));
 
+//? Reviews Routes:
+//*CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
+//*CREATE 2) POST is needed -> campgrounds/:id/reviews
+
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+    res.send("You Hit This Route");
+}));
+
 
 //! Throws Error if not route has been hit yet -> Goes to Handler below
 app.all('*', (req, res, next) => {
