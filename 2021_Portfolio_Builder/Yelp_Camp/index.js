@@ -8,7 +8,8 @@ const Campground = require('./models/campground');
 const { findByIdAndUpdate } = require('./models/campground');
 const ExpressError = require('./utilities/ExpressError');
 const catchAsync = require('./utilities/catchAsync');
-const { campgroundSchema } = require('./validationSchemas/schemas');
+const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas');
+
 const Review = require('./models/review');
 
 //* Sets Up Mongoose Connection
@@ -37,6 +38,17 @@ const validateCampground = (req, res, next) => {
         next();
     }
 };
+
+//* Middleware for validating reviews.
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if(error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(400, msg);
+    } else {
+        next();
+    }
+}
 
 //?ROUTES:
 app.get('/', (req, res) => {
@@ -67,7 +79,7 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res) => {
 //* SHOW
 app.get('/campgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id);
+    const campground = await Campground.findById(id).populate('reviews'); //* Populate Reviews
     res.render('campgrounds/show', { campground });
 }));
 
@@ -96,9 +108,20 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 //? Reviews Routes:
 //*CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
 //*CREATE 2) POST is needed -> campgrounds/:id/reviews
+//* --Find Campground by ID
+//* --Find Review from Form Body (create new Review Object)
+//* --PUSH new Review onto campground's reviews property array
+//* --SAVE BOTH Models -> Redirect
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
-    res.send("You Hit This Route");
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    const { review } = req.body;
+    const nextReview = new Review(review);
+    campground.reviews.push(nextReview);
+    await nextReview.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`)
 }));
 
 
