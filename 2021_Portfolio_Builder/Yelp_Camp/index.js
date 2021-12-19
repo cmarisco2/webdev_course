@@ -106,8 +106,8 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 }));
 
 //? Reviews Routes:
-//*CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
-//*CREATE 2) POST is needed -> campgrounds/:id/reviews
+//* CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
+//* CREATE 2) POST is needed -> campgrounds/:id/reviews
 //* --Find Campground by ID
 //* --Find Review from Form Body (create new Review Object)
 //* --PUSH new Review onto campground's reviews property array
@@ -122,6 +122,15 @@ app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res)
     await nextReview.save();
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`)
+}));
+
+//* DELETE Review & Remove it from the Associated Campground
+//* Note: {$pull: {collection: item}} is taking the item out of the collection.
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async(req, res) => {
+    const { id, reviewId } = req.params;
+    await Campground.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
 }));
 
 
