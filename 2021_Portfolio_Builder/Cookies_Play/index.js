@@ -6,7 +6,7 @@ const app = express();
 
 //?Needed for parsing cookies:
 const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+app.use(cookieParser('hidden-key')); //* With an arg (parse key), has signed capabilities
 
 
 
@@ -14,14 +14,14 @@ app.use(cookieParser());
 //* use "res.cookie" to set a key-value pair cookie
 app.get('/setName', (req, res) => {
     //! Sending Cookie
-    res.cookie('name', 'Sephiroth');
-    res.send("Sent You a Cookie, Chum!");
+    res.cookie('name', 'Sephiroth', { signed: true }); //* Adding Signed Propety
+    res.send("Sent You a Signature Cookie, Chum!");
 });
 
 //* Retrieve Cookies:
 //* use req.cookie -> typically, destructure for parsing
 app.get('/greet', (req, res) => {
-    const { name = "Anonymous" } = req.cookies;
+    const { name = "Anonymous" } = req.signedCookies;
     res.send(`Hello ${ name }`);
 });
 
