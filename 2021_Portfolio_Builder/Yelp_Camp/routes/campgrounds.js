@@ -20,7 +20,7 @@ const validateCampground = (req, res, next) => {
 };
 
 
-//? Campgrouds:
+//? Campgroud Routes:
 //* INDEX
 router.get('/', catchAsync(async(req, res) => {
     const campgrounds = await Campground.find({});
