@@ -9,9 +9,10 @@ const { findByIdAndUpdate } = require('./models/campground');
 const ExpressError = require('./utilities/ExpressError');
 const catchAsync = require('./utilities/catchAsync');
 const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas');
-const campgroundRoutes = require('./routes/campgrounds');
-
 const Review = require('./models/review');
+const campgroundRoutes = require('./routes/campgrounds');
+const reviewRoutes = require('./routes/reviews');
+
 
 //* Sets Up Mongoose Connection
 async function main() {
@@ -55,40 +56,14 @@ const validateReview = (req, res, next) => {
 
 //? Camprounds Router:
 app.use('/campgrounds', campgroundRoutes);
+//? Reviews Routes:
+app.use('/campgrounds/:id/reviews', reviewRoutes); //* need merge params in reviews.js file in order to access campgrounds' "id" param for the review routes.
 
 app.get('/', (req, res) => {
     res.render('home');
 });
 
 
-
-//? Reviews Routes:
-//* CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
-//* CREATE 2) POST is needed -> campgrounds/:id/reviews
-//* --Find Campground by ID
-//* --Find Review from Form Body (create new Review Object)
-//* --PUSH new Review onto campground's reviews property array
-//* --SAVE BOTH Models -> Redirect
-
-app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const campground = await Campground.findById(id);
-    const { review } = req.body;
-    const nextReview = new Review(review);
-    campground.reviews.push(nextReview);
-    await nextReview.save();
-    await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`)
-}));
-
-//* DELETE Review & Remove it from the Associated Campground
-//* Note: {$pull: {collection: item}} is taking the item out of the collection.
-app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async(req, res) => {
-    const { id, reviewId } = req.params;
-    await Campground.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/campgrounds/${id}`);
-}));
 
 
 //! Throws Error if not route has been hit yet -> Goes to Handler below
