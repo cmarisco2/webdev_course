@@ -12,8 +12,9 @@ const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas'
 const Review = require('./models/review');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
-//session use and middleware
+//session & flash -> both have middleware functions
 const session = require('express-session');
+const flash = require('connect-flash');
 
 //* Sets Up Mongoose Connection
 async function main() {
@@ -24,11 +25,14 @@ main()
     .catch(err => console.log(err));
 //* End of Mongoose Connection Setup.
 
+//* VIEW ENGINE SETTINGS
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-//? session options
+//! SETUP OF MIDDLEWARE:
+
+//* SESSION OPTIONS:
 const sessionOptions = {
     secret: 'Hello_World',
     resave: false,
@@ -39,11 +43,6 @@ const sessionOptions = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 };
-//* Middleware
-app.use(session(sessionOptions));
-app.use(express.urlencoded({extended:true}));
-app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
 
 //* Middleware for validating campgrounds. Add as argument to desired routes. next()
 const validateCampground = (req, res, next) => {
@@ -65,9 +64,32 @@ const validateReview = (req, res, next) => {
     } else {
         next();
     }
-}
+};
 
-//?ROUTES:
+//* Define middleware that calls req.flash()
+//? 'success' = key. value defined in campgrounds.js
+//* res.locals.success -> success property accessible for ejs views
+const flashMessage = function (req, res, next) {
+    res.locals.success = req.flash('success'); 
+    res.locals.error = req.flash('error');
+    next();
+};
+
+//* Middleware via app.use():
+app.use(session(sessionOptions));
+app.use(flash());
+app.use(flashMessage); // Pass in definition, don't call the function
+app.use(express.urlencoded({extended:true}));
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
+
+
+//! END OF MIDDLEWARE
+
+
+
+
+//* ROUTES HANDLERS:
 
 //? Camprounds Router:
 app.use('/campgrounds', campgroundRoutes);
