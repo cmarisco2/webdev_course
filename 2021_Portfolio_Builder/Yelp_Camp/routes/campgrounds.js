@@ -36,9 +36,9 @@ router.post('/', validateCampground, catchAsync(async (req, res) => {
     //? Need to use middleware to know how to parse 'req.body'
     //? Note: req.body.campground is an object => constructor doesn't require '{}'
     //* We Know that campground is posted in the body from 'new' form
-
     const campground = new Campground(req.body.campground);
     await campground.save();
+    req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
