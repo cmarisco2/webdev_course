@@ -29,6 +29,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
 
 //* Middleware for validating campgrounds. Add as argument to desired routes. next()
 const validateCampground = (req, res, next) => {
