@@ -12,7 +12,8 @@ const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas'
 const Review = require('./models/review');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
-
+//session use and middleware
+const session = require('express-session');
 
 //* Sets Up Mongoose Connection
 async function main() {
@@ -27,6 +28,19 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+//? session options
+const sessionOptions = {
+    secret: 'Hello_World',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() * 1000 * 60 * 60 * 24 * 7, //millisec in 1 week (Date.now() is in milliseconds)
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+//* Middleware
+app.use(session(sessionOptions));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
