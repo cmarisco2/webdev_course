@@ -7,6 +7,8 @@ const catchAsync = require('../utilities/catchAsync');
 const ExpressError = require('../utilities/ExpressError');
 const Campground = require('../models/campground');
 const { campgroundSchema } = require('../validationSchemas/schemas');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 
 //* Middleware for validating campgrounds. Add as argument to desired routes. next()
 const validateCampground = (req, res, next) => {
@@ -18,6 +20,13 @@ const validateCampground = (req, res, next) => {
         next();
     }
 };
+
+//* Helper Function For Throwing Flashes upon Null Campground Errors
+const notFoundCampgroundFlash = (campground, req, res) => {
+    req.flash('error', 'Campground Cannot Be Found');
+    // return needed to prevent further execution
+    return res.redirect('/campgrounds');
+}
 
 
 //? Campgroud Routes:
@@ -46,6 +55,7 @@ router.post('/', validateCampground, catchAsync(async (req, res) => {
 router.get('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id).populate('reviews'); //* Populate Reviews
+    if(!campground) return notFoundCampgroundFlash(campground, req, res);
     res.render('campgrounds/show', { campground });
 }));
 
@@ -53,6 +63,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
+    if(!campground) return notFoundCampgroundFlash(campground, req, res);
     res.render('campgrounds/edit', { campground });
 }));
 router.put('/:id', validateCampground, catchAsync(async (req, res) => {
