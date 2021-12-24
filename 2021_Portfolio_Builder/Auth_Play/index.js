@@ -7,6 +7,7 @@ const app = express();
 const User = require('./models/user');
 const path = require('path');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -28,10 +29,16 @@ app.get('/register', (req, res) => {
     res.render('register');
 }) //* make user (async, postrequest, parsebody)
 app.post('/register', async (req, res) => {
-    res.send(req.body);
-})
+    const { username, password } = req.body;
+    const hash = await bcrypt.hash(password, 12);
+    const user = new User({username, password: hash});
+    await user.save();
+    res.redirect('/');
+});
 
-
+app.get('/', (req, res) => {
+    res.send('Home Page');
+});
 app.get('/secret', (req, res) => {
     res.send("This Path is Secret");
 });
