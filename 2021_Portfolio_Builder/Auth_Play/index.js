@@ -36,6 +36,18 @@ app.post('/register', async (req, res) => {
     res.redirect('/');
 });
 
+//* Form To Verify User's Authorization
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username }); //? This is why usernames need be unique
+    const validPassword = await bcrypt.compare(password, user.password);
+    if(!user || !validPassword) res.send('Incorrect Username Or Password');
+    if(validPassword) res.send("Yay! Welcome Back!")
+});
+
 app.get('/', (req, res) => {
     res.send('Home Page');
 });
