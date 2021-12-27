@@ -26,6 +26,14 @@ main()
 app.use(express.urlencoded({extended:true}));
 app.use(session({secret: 'secretCode'}));
 
+//! Middleware to check if logged in:
+const requireLogin = (req, res, next) => {
+    if(!req.session.user_id){
+        return res.redirect('/login');
+    }
+    next();
+}
+
 
 //* Gets Form To Register User
 app.get('/register', (req, res) => {
@@ -66,8 +74,7 @@ app.post('/logout', (req, res) => {
 app.get('/', (req, res) => {
     res.send('Home Page');
 });
-app.get('/secret', (req, res) => {
-    if(!req.session.user_id) return res.redirect('/login');
+app.get('/secret', requireLogin, (req, res) => {
     res.render('secret');
 });
 
