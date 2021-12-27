@@ -50,10 +50,17 @@ app.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if(!user || !validPassword) res.send('Incorrect Username Or Password');
     if(validPassword) {
-        req.session.user_id = user._id;
+        req.session.user_id = user._id; //? When Authenticated, mutate session
         res.redirect('/secret');
     }
 
+});
+
+//* Logout -> have a form go to post route '/logout'
+//*        -> in post route, set the session.user_id to 'null'
+app.post('/logout', (req, res) => {
+    req.session.user_id = null; //! Logs out (can use req.session.destroy() too)
+    res.redirect('/login');
 });
 
 app.get('/', (req, res) => {
@@ -61,7 +68,7 @@ app.get('/', (req, res) => {
 });
 app.get('/secret', (req, res) => {
     if(!req.session.user_id) return res.redirect('/login');
-    res.send("This Path is Secret");
+    res.render('secret');
 });
 
 
