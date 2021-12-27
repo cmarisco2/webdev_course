@@ -24,7 +24,9 @@ main()
 //*
 
 app.use(express.urlencoded({extended:true}));
-app.use(session({secret: 'secretCode'}));
+app.use(session({
+    secret: 'secretCode',
+}));
 
 //! Middleware to check if logged in:
 const requireLogin = (req, res, next) => {
@@ -41,11 +43,10 @@ app.get('/register', (req, res) => {
 }) //* make user (async, postrequest, parsebody)
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
-    const hash = await bcrypt.hash(password, 12);
-    const user = new User({username, password: hash});
+    const user = new User({username, password});
     await user.save();
     req.session.user_id = user._id;
-    res.redirect('/');
+    res.redirect('/secret');
 });
 
 //* Form To Verify User's Authorization
