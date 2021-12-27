@@ -54,14 +54,11 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username }); //? This is why usernames need be unique
-    const validPassword = await bcrypt.compare(password, user.password);
-    if(!user || !validPassword) res.send('Incorrect Username Or Password');
-    if(validPassword) {
-        req.session.user_id = user._id; //? When Authenticated, mutate session
-        res.redirect('/secret');
-    }
-
+    const foundUser = await User.findAndValidate(username, password);
+    if(!foundUser)res.send('Incorrect Username Or Password');
+    req.session.user_id = foundUser._id; //? When Authenticated, mutate session
+    res.redirect('/secret');
+    
 });
 
 //* Logout -> have a form go to post route '/logout'
