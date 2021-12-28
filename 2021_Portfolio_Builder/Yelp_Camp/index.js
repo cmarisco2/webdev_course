@@ -12,9 +12,14 @@ const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas'
 const Review = require('./models/review');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
-//session & flash -> both have middleware functions
+//* session & flash -> both have middleware functions
 const session = require('express-session');
 const flash = require('connect-flash');
+
+//* Passport Requirements
+const passport = require('passport'); 
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 //* Sets Up Mongoose Connection
 async function main() {
@@ -83,6 +88,14 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
 
+//* Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session()); //look at docs (must be after app.use(session))
+//* Strategies need to Authenticate, Serialize, And Deserialize Users
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser()); 
+passport.deserializeUser(User.deserializeUser());
+
 
 //! END OF MIDDLEWARE
 
@@ -100,7 +113,13 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-
+//* Fake Register of User.
+//* register() takes the user and password -> stores user and salted/hashed code
+app.get('/fakeUser', async (req, res) => {
+    const user = new User({email: 'batman@gmail.com', username: 'batman'});
+    const newUser = await User.register(user, 'password'); //! Register a User
+    res.send(newUser);
+});
 
 
 //! Throws Error if not route has been hit yet -> Goes to Handler below
