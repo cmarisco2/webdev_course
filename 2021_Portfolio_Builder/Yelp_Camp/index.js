@@ -10,8 +10,10 @@ const ExpressError = require('./utilities/ExpressError');
 const catchAsync = require('./utilities/catchAsync');
 const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas');
 const Review = require('./models/review');
+//* Router 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/user');
 //* session & flash -> both have middleware functions
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -103,7 +105,8 @@ passport.deserializeUser(User.deserializeUser());
 
 
 //* ROUTES HANDLERS:
-
+//? User Routes (no prefix needed)
+app.use('/', userRoutes);
 //? Camprounds Router:
 app.use('/campgrounds', campgroundRoutes);
 //? Reviews Routes:
