@@ -1,3 +1,7 @@
+/**
+ * User Routes
+ * username: carl password: carl for debugging purposes
+ */
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
@@ -31,7 +35,7 @@ router.get('/login', (req, res) => {
     res.render('users/login');
 });
 
-//! Passport Middleware to login
+//! Passport Middleware to login -> passport.authenticate()
 router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}) ,(req, res) => {
     req.flash('success', 'Welcome Back!');
     res.redirect('/campgrounds');
