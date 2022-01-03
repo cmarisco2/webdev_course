@@ -41,6 +41,13 @@ router.post('/login', passport.authenticate('local', {failureFlash: true, failur
     res.redirect('/campgrounds');
 });
 
+//* Logout Route: use req.logout() then redirect
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', 'Logged Out -> See You Next Time');
+    res.redirect('/campgrounds');
+});
+
 
 
 
