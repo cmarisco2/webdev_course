@@ -9,6 +9,7 @@ const Campground = require('../models/campground');
 const { campgroundSchema } = require('../validationSchemas/schemas');
 const req = require('express/lib/request');
 const res = require('express/lib/response');
+const { isLoggedIn } = require('../middleware');
 
 //* Middleware for validating campgrounds. Add as argument to desired routes. next()
 const validateCampground = (req, res, next) => {
@@ -38,10 +39,11 @@ router.get('/', catchAsync(async(req, res) => {
 
 
 //* CREATE
-router.get('/new', (req, res) => {
+//! Add Authentication Check via middleware
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('campgrounds/new');
 });
-router.post('/', validateCampground, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     //? Need to use middleware to know how to parse 'req.body'
     //? Note: req.body.campground is an object => constructor doesn't require '{}'
     //* We Know that campground is posted in the body from 'new' form
@@ -60,13 +62,13 @@ router.get('/:id', catchAsync(async (req, res) => {
 }));
 
 //* EDIT
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if(!campground) return notFoundCampgroundFlash(campground, req, res);
     res.render('campgrounds/edit', { campground });
 }));
-router.put('/:id', validateCampground, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateCampground, catchAsync(async (req, res) => {
     //INCORRECT -> Need to update NOT CREATE
     // const campground = new Campground(req.body.campground);
     // await campground.save();
@@ -77,7 +79,7 @@ router.put('/:id', validateCampground, catchAsync(async (req, res) => {
 }));
 
 //* DELETE -> sent via form w/button, overrided method, on existing form page (like SHOW)
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully Deleted Campground');
