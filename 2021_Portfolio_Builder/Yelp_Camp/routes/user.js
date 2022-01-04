@@ -1,6 +1,7 @@
 /**
  * User Routes
  * username: carl password: carl for debugging purposes
+ * id: 61d34d89d0ac50a867b657c2
  */
 const express = require('express');
 const router = express.Router();
@@ -41,7 +42,10 @@ router.get('/login', (req, res) => {
 //! Passport Middleware to login -> passport.authenticate()
 router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}) ,(req, res) => {
     req.flash('success', 'Welcome Back!');
-    res.redirect('/campgrounds');
+    //* Shorts to session info, if there, else to default.
+    const redirectedUrl = req.session.returnTo || '/campgrounds';
+    delete req.session.returnTo;
+    res.redirect(redirectedUrl);
 });
 
 //* Logout Route: use req.logout() then redirect
