@@ -48,6 +48,7 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => 
     //? Note: req.body.campground is an object => constructor doesn't require '{}'
     //* We Know that campground is posted in the body from 'new' form
     const campground = new Campground(req.body.campground);
+    campground.author = req.user._id;
     await campground.save();
     req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
     res.redirect(`/campgrounds/${campground._id}`);
@@ -56,7 +57,7 @@ router.post('/', isLoggedIn, validateCampground, catchAsync(async (req, res) => 
 //* SHOW
 router.get('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id).populate('reviews'); //* Populate Reviews
+    const campground = await Campground.findById(id).populate('reviews').populate('author'); //* Populate Reviews
     if(!campground) return notFoundCampgroundFlash(campground, req, res);
     res.render('campgrounds/show', { campground });
 }));
