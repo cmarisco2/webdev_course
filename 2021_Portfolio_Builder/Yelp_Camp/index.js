@@ -76,11 +76,18 @@ const validateReview = (req, res, next) => {
 //* Define middleware that calls req.flash()
 //? 'success' = key. value defined in campgrounds.js
 //* res.locals.success -> success property accessible for ejs views
+//! Important: Renders Only If Exists (Add to template, if there render, if not, nothing)
+//* res.locals 
 const flashMessage = function (req, res, next) {
     res.locals.success = req.flash('success'); 
     res.locals.error = req.flash('error');
     next();
 };
+
+const currentSession = function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+}
 
 //* Middleware via app.use():
 app.use(session(sessionOptions));
@@ -97,6 +104,8 @@ app.use(passport.session()); //look at docs (must be after app.use(session))
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); 
 passport.deserializeUser(User.deserializeUser());
+app.use(currentSession); //* Add locals property currentUser
+
 
 
 //! END OF MIDDLEWARE
