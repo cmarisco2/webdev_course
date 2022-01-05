@@ -8,19 +8,7 @@
  const ExpressError = require('../utilities/ExpressError');
  const Campground = require('../models/campground');
  const Review = require('../models/review');
- const { reviewSchema } = require('../validationSchemas/schemas');
-
-//* Middleware for validating reviews.
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(400, msg);
-    } else {
-        next();
-    }
-}
-
+ const { validateReview } = require('../middleware');
  //? Reviews Routes:
 
  //* CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
