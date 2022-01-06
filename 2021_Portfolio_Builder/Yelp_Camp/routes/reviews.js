@@ -8,7 +8,7 @@
  const ExpressError = require('../utilities/ExpressError');
  const Campground = require('../models/campground');
  const Review = require('../models/review');
- const { validateReview, isLoggedIn } = require('../middleware');
+ const { validateReview, isLoggedIn, isAuthorReview } = require('../middleware');
  //? Reviews Routes:
 
  //* CREATE 1) "GET" route is actually just Show/Details of a Campround w/ Form
@@ -33,7 +33,7 @@ router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
 
 //* DELETE Review & Remove it from the Associated Campground
 //* Note: {$pull: {collection: item}} is taking the item out of the collection.
-router.delete('/:reviewId', isLoggedIn, catchAsync(async(req, res) => {
+router.delete('/:reviewId', isLoggedIn, isAuthorReview, catchAsync(async(req, res) => {
     const { id, reviewId } = req.params;
     await Campground.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId);
