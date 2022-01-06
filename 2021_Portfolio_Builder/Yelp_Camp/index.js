@@ -125,14 +125,6 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-//* Fake Register of User.
-//* register() takes the user and password -> stores user and salted/hashed code
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({email: 'batman@gmail.com', username: 'batman'});
-    const newUser = await User.register(user, 'password'); //! Register a User
-    res.send(newUser);
-});
-
 
 //! Throws Error if not route has been hit yet -> Goes to Handler below
 app.all('*', (req, res, next) => {
