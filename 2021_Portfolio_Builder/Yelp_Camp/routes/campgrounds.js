@@ -20,25 +20,22 @@ const notFoundCampgroundFlash = (req, res) => {
 
 
 //? Campgroud Routes:
-//* INDEX
-router.get('/', catchAsync(campgrounds.index));
-
-
-//* CREATE
-//! Add Authentication Check via middleware
+//* '/' routes
+router.route('/')
+    .get(catchAsync(campgrounds.index)) //* Index
+    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //*Create Campground
+    
+//* CREATE Form
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
-router.post('/', isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
 
-//* SHOW
-router.get('/:id', catchAsync(campgrounds.showCampground));
+//* '/:id' routes
+router.route('/:id')
+    .get(catchAsync(campgrounds.showCampground)) //* Show
+    .put(isLoggedIn, isAuthorCampground, validateCampground, catchAsync(campgrounds.editCampground)) //* Put Edits
+    .delete(isLoggedIn, isAuthorCampground, catchAsync(campgrounds.deleteCampground)) //* Delete -> sent via form w/button, override method, on existing form page
 
-//* EDIT
+//* EDIT Form
 // Get Form
 router.get('/:id/edit', isLoggedIn, isAuthorCampground, catchAsync(campgrounds.renderEditForm));
-// Put Edits
-router.put('/:id', isLoggedIn, isAuthorCampground, validateCampground, catchAsync(campgrounds.editCampground));
-
-//* DELETE -> sent via form w/button, overrided method, on existing form page (like SHOW)
-router.delete('/:id', isLoggedIn, isAuthorCampground, catchAsync(campgrounds.deleteCampground));
 
 module.exports = router;
