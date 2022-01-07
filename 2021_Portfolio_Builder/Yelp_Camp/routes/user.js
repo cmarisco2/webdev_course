@@ -11,16 +11,17 @@ const passport = require('passport');
 const User = require('../models/user');
 const user = require('../controllers/user');
 
-
 //* Create New User: 1) GET FORM 2) POST FORM
-router.get('/register', user.registrationForm);
-router.post('/register', catchAsync(user.createUser));
+router.route('/register')
+    .get(user.registrationForm)
+    .post(catchAsync(user.createUser));
+
+
 
 //* Login as an already registered user:
-router.get('/login', user.loginForm);
-
-//! Passport Middleware to login -> passport.authenticate()
-router.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}) , user.loginUser);
+router.route('/login')
+    .get(user.loginForm) //* Login Form
+    .post(passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}) , user.loginUser); //* authenticate login via passport
 
 //* Logout Route: use req.logout() then redirect
 router.get('/logout', user.logoutUser);
