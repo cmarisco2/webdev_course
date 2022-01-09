@@ -1,19 +1,21 @@
+//* Dev Environment Variable Setup
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config()
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const Campground = require('./models/campground');
-const { findByIdAndUpdate } = require('./models/campground');
 const ExpressError = require('./utilities/ExpressError');
-const catchAsync = require('./utilities/catchAsync');
-const { campgroundSchema, reviewSchema } = require('./validationSchemas/schemas');
-const Review = require('./models/review');
+
 //* Router 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/user');
+
 //* session & flash -> both have middleware functions
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -51,27 +53,7 @@ const sessionOptions = {
     }
 };
 
-//* Middleware for validating campgrounds. Add as argument to desired routes. next()
-const validateCampground = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(400, msg);
-    } else {
-        next();
-    }
-};
 
-//* Middleware for validating reviews.
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(400, msg);
-    } else {
-        next();
-    }
-};
 
 //* Define middleware that calls req.flash()
 //? 'success' = key. value defined in campgrounds.js
