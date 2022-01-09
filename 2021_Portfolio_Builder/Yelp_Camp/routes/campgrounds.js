@@ -10,6 +10,9 @@ const { isLoggedIn, isAuthorCampground, validateCampground } = require('../middl
 //* Campground Controller
 const campgrounds = require('../controllers/campgrounds');
 
+//* Setup Multer for uploading docs
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'}); //? Local storage dir created. Usually, webservice
 
 //* Helper Function For Throwing Flashes upon Null Campground Errors
 const notFoundCampgroundFlash = (req, res) => {
@@ -23,7 +26,11 @@ const notFoundCampgroundFlash = (req, res) => {
 //* '/' routes
 router.route('/')
     .get(catchAsync(campgrounds.index)) //* Index
-    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //*Create Campground
+   // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //! multer middleware demo to create campground image upload
+   .post(upload.single('image'), (req, res) => {
+       console.log(req.body, req.file);
+       res.send('Logging Body And File');
+   })
     
 //* CREATE Form
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
