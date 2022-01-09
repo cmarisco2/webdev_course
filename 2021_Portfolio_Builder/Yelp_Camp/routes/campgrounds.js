@@ -12,7 +12,8 @@ const campgrounds = require('../controllers/campgrounds');
 
 //* Setup Multer for uploading docs
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'}); //? Local storage dir created. Usually, webservice
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage }); 
 
 //* Helper Function For Throwing Flashes upon Null Campground Errors
 const notFoundCampgroundFlash = (req, res) => {
@@ -26,9 +27,10 @@ const notFoundCampgroundFlash = (req, res) => {
 //* '/' routes
 router.route('/')
     .get(catchAsync(campgrounds.index)) //* Index
-   // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //! multer middleware demo to create campground image upload
-   .post(upload.single('image'), (req, res) => {
-       console.log(req.body, req.file);
+   // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //* multer middleware demo to create campground image upload
+   //* req.file -> upload.singe() req.files -> upload.array()
+   .post(upload.array('image'), (req, res) => {
+       console.log(req.body, req.files);
        res.send('Logging Body And File');
    })
     
