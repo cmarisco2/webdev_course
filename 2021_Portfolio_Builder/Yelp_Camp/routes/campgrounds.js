@@ -27,12 +27,8 @@ const notFoundCampgroundFlash = (req, res) => {
 //* '/' routes
 router.route('/')
     .get(catchAsync(campgrounds.index)) //* Index
-   // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground)) //* multer middleware demo to create campground image upload
-   //* req.file -> upload.singe() req.files -> upload.array()
-   .post(upload.array('image'), (req, res) => {
-       console.log(req.body, req.files);
-       res.send('Logging Body And File');
-   })
+    //* req.file -> upload.singe() req.files -> upload.array()
+   .post(isLoggedIn, upload.array('campground[images]'), validateCampground,  catchAsync(campgrounds.createCampground)) //* multer middleware demo to create campground image upload
     
 //* CREATE Form
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
