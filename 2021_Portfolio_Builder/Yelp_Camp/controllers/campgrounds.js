@@ -30,14 +30,14 @@ module.exports.createCampground = async (req, res) => {
         query: req.body.campground.location,
         limit: 1
     }).send();
-    res.send(geoData.body.features[0].geometry.coordinates);
     //* We Know that campground is posted in the body from 'new' form
-    // const campground = new Campgroud(req.body.campground);
-    // campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
-    // campground.author = req.user._id;
-    // await campground.save();
-    // req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
-    // res.redirect(`/campgrounds/${campground._id}`);
+    const campground = new Campgroud(req.body.campground);
+    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
+    campground.author = req.user._id;
+    campground.geometry = geoData.body.features[0].geometry;
+    await campground.save();
+    req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
+    res.redirect(`/campgrounds/${campground._id}`);
 }
 
 //* SHOW
