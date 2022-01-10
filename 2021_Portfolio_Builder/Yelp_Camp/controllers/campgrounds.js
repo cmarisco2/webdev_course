@@ -22,6 +22,7 @@ module.exports.createCampground = async (req, res) => {
     //? Note: req.body.campground is an object => constructor doesn't require '{}'
     //* We Know that campground is posted in the body from 'new' form
     const campground = new Campgroud(req.body.campground);
+    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
     campground.author = req.user._id;
     await campground.save();
     req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
