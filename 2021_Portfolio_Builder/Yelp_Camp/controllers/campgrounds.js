@@ -7,6 +7,10 @@
 
 const Campgroud = require('../models/campground');
 const { cloudinary } = require('../cloudinary');
+//* Setup Geocoding from Mapbox
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 //* INDEX
 module.exports.index = async(req, res) => {
@@ -21,13 +25,19 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createCampground = async (req, res) => {
     //? Need to use middleware to know how to parse 'req.body'
     //? Note: req.body.campground is an object => constructor doesn't require '{}'
+    //* Utilizing Mapbox Geocoder API
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.campground.location,
+        limit: 1
+    }).send();
+    res.send(geoData.body.features[0].geometry.coordinates);
     //* We Know that campground is posted in the body from 'new' form
-    const campground = new Campgroud(req.body.campground);
-    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
-    campground.author = req.user._id;
-    await campground.save();
-    req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
-    res.redirect(`/campgrounds/${campground._id}`);
+    // const campground = new Campgroud(req.body.campground);
+    // campground.images = req.files.map(f => ({url: f.path, filename: f.filename}));
+    // campground.author = req.user._id;
+    // await campground.save();
+    // req.flash('success', 'Successfully, created a new campground'); //* flash before a redirect. Update the template below as well. middleware will ensure variable exists
+    // res.redirect(`/campgrounds/${campground._id}`);
 }
 
 //* SHOW
