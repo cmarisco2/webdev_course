@@ -36,7 +36,7 @@ router.get('/new', isLoggedIn, campgrounds.renderNewForm);
 //* '/:id' routes
 router.route('/:id')
     .get(catchAsync(campgrounds.showCampground)) //* Show
-    .put(isLoggedIn, isAuthorCampground, validateCampground, catchAsync(campgrounds.editCampground)) //* Put Edits
+    .put(isLoggedIn, isAuthorCampground, upload.array('campground[images]'), validateCampground, catchAsync(campgrounds.editCampground)) //* Put Edits
     .delete(isLoggedIn, isAuthorCampground, catchAsync(campgrounds.deleteCampground)) //* Delete -> sent via form w/button, override method, on existing form page
 
 //* EDIT Form
