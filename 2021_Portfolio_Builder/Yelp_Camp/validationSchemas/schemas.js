@@ -9,14 +9,15 @@ module.exports.campgroundSchema = Joi.object({
     campground: Joi.object({
         title: Joi.string().required(),
         price: Joi.number().required().min(0),
-        images: Joi.array().items({
-            url: Joi.string().required(),
-            filename: Joi.string().required()
-        }),
+        // images: Joi.array().items({
+        //     url: Joi.string().required(),
+        //     filename: Joi.string().required()
+        // }),
         description: Joi.string().required(),
         location: Joi.string().required()
         // author: Joi.string().required()
-    }).required()
+    }).required(),
+    deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({
