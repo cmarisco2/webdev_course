@@ -1,10 +1,11 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
+    style: 'mapbox://styles/mapbox/light-v10',
     center: [-103.5917, 40.6699],
     zoom: 3
 });
+
 
 map.on('load', () => {
     // Add a new source from our GeoJSON data and
@@ -35,19 +36,19 @@ map.on('load', () => {
                 'step',
                 ['get', 'point_count'],
                 '#51bbd6',
-                100,
+                10,
                 '#f1f075',
-                750,
+                25,
                 '#f28cb1'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
+                10,
+                10,
                 20,
-                100,
-                30,
-                750,
-                40
+                25,
+                30
             ]
         }
     });
@@ -102,9 +103,8 @@ map.on('load', () => {
     // description HTML from its properties.
     map.on('click', 'unclustered-point', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
-        const mag = e.features[0].properties.mag;
-        const tsunami =
-            e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
+        const { PopupText } = e.features[0].properties;
+        
 
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
@@ -116,7 +116,7 @@ map.on('load', () => {
         new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(
-                `magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`
+                PopupText
             )
             .addTo(map);
     });
