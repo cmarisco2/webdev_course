@@ -45,7 +45,10 @@ const seedDB = async () => {
             ],
             geometry: {
                 type: 'Point',
-                coordinates: [-104.9653, 39.7348]
+                coordinates: [
+                    cities[rand1000].longitude,
+                     cities[rand1000].latitude
+                    ] // [lng, lat]
             },
             // USER ID FOR CARL in mongoDB
             author: '61d34d89d0ac50a867b657c2',
