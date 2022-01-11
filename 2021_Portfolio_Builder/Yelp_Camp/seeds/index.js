@@ -18,7 +18,7 @@ main()
 //* Deletes all in db, then loops to add random city-state combos, and custom array sample function to pick a random element from any array
 const seedDB = async () => {
     await Campground.deleteMany({});
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < 300; i++) {
         const rand1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 50) + 10;
         await new Campground({
