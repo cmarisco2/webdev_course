@@ -8,9 +8,14 @@ const ImageSchema = new Schema({
         url: String,
         filename: String
 });
+
+//* edits url for thumbnail version using cloudinary.
 ImageSchema.virtual('thumbnail').get(function(){
     return this.url.replace('/upload', '/upload/w_200');
 });
+
+//* Need Option to allow virtuals to convert to JSON
+const opts = { toJSON: { virtuals: true } };
 
 const campgroundSchema = new Schema({
     title: String,
@@ -39,6 +44,12 @@ const campgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts);
+
+//* Nests virtual property in model for access by clusterMap.js
+campgroundSchema.virtual('properties.PopupText').get(function () {
+    return `<strong><a href="/campgrounds/${this._id}">${this.title}</a></strong>
+    <p>${this.description.substring(0, 50)}....</p>`;
 });
 
 //!Mongoose middleware REQUIRES analyzing docs just to hit correct middleware
