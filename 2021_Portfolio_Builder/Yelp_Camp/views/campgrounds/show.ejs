@@ -2,19 +2,23 @@
     <link rel="stylesheet" href="/StyleSheets/stars.css">
     <div class="row mb-3">
         <div class="col-md-6">
-            <!--* Map Demo  -->
-            <div id='map' style='width: 400px; height: 300px;'></div>
-            <!--* Carousel Demo  -->
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="<%=campground.images[0].url%>" class="d-block w-100" alt="">
-                    </div>
-                    <% for (let i=1; i < campground.images.length; i++){ %>
-                        <div class="carousel-item">
-                            <img src="<%=campground.images[i].url%>" class="d-block w-100" alt="">
+                    <% if(campground.images.length){ %>
+                        <div class="carousel-item active">
+                            <img src="<%=campground.images[0].url%>" class="d-block w-100" alt="">
                         </div>
-                        <% } %>
+                        <% for (let i=1; i < campground.images.length; i++){ %>
+                            <div class="carousel-item">
+                                <img src="<%=campground.images[i].url%>" class="d-block w-100" alt="">
+                            </div>
+                            <% } %>
+                                <% } else { %>
+                                    <div class="carousel-item active">
+                                        <img src="https://res.cloudinary.com/dmlzjpicq/image/upload/v1641856365/YelpCamp/h5zrwvv2zejbgpm4u25t.jpg"
+                                            class="d-block w-100" alt="">
+                                    </div>
+                                    <% } %>
                 </div>
                 <% if(campground.images.length> 1){ %>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -63,6 +67,9 @@
             </div>
         </div>
         <div class="col-md-6">
+            <!--* Map Demo  -->
+            <div id='map' style='width: 450px; height: 300px;'></div>
+            <!--* Carousel Demo  -->
             <% if(currentUser){ %>
                 <h2>Leave A Review</h2>
                 <form class="mb-3 needs-validation" action="/campgrounds/<%=campground._id%>/reviews" method="post"
@@ -120,7 +127,10 @@
                     </div>
         </div>
     </div>
+    <!--? Script to Pass data to beneath linked JS file  -->
+    <!--* Need to make campground JSON to not throw errors when using script tags -->
     <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const campground = <%- JSON.stringify(campground) %>
     </script>
     <script src="/JavaScripts/showPageMap.js"></script>
