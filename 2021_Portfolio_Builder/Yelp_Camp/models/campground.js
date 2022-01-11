@@ -11,7 +11,7 @@ const ImageSchema = new Schema({
 
 //* edits url for thumbnail version using cloudinary.
 ImageSchema.virtual('thumbnail').get(function(){
-    return this.url.replace('/upload', '/upload/w_200');
+    return this.url.replace('/upload', '/upload/w_200, h_200');
 });
 
 //* Need Option to allow virtuals to convert to JSON

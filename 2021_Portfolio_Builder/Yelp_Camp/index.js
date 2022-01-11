@@ -11,6 +11,14 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utilities/ExpressError');
 
+//* production vs local
+const db_url = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+const secret = process.env.SECRET || 'Hello_World';
+
+//* Security Middleware
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+
 //* Router 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -20,14 +28,18 @@ const userRoutes = require('./routes/user');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+//* mongo store
+const MongoDBStore = require('connect-mongo')(session);
+
 //* Passport Requirements
 const passport = require('passport'); 
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
 //* Sets Up Mongoose Connection
+//mongodb://localhost:27017/yelp-camp
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/yelp-camp');
+    await mongoose.connect(db_url);
 }
 main()
     .then(() => console.log('connected to Yelp-Camp Database on MongoDB'))
@@ -41,9 +53,19 @@ app.set('views', path.join(__dirname, 'views'));
 
 //! SETUP OF MIDDLEWARE:
 
+const store = new MongoDBStore({
+    url: db_url,
+    secret,
+    touchAfter: 24 * 60 * 60
+})
+
+store.on('error', (e) => console.log("Session Store Erro",e));
+
 //* SESSION OPTIONS:
 const sessionOptions = {
-    secret: 'Hello_World',
+    store,
+    name: 'session',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -78,6 +100,14 @@ app.use(flashMessage); // Pass in definition, don't call the function
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public'))); //* Serve Static Assets in public/ directory
+
+app.use(mongoSanitize());
+// app.use(
+//     helmet({
+//         contentSecurityPolicy: false,
+//         referrerPolicy: {policy: "no-referrer"}
+//     })
+// );
 
 //* Passport Middleware
 app.use(passport.initialize());

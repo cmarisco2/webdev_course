@@ -1,6 +1,57 @@
 <% layout('layouts/boilerplate')%>
-    <h1>Login</h1>
-    <form class="needs-validation" action="/login" method="post" novalidate>
+    <!-- <h1>Login</h1> -->
+    <!--* d-flex breaks container. Check boilerplate Bootstrap & new docs  -->
+    <div class="container justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                <div class="card shadow">
+                    <img src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80"
+                        alt="" class="card-img-top">
+                    <div class="card-body">
+                        <form class="needs-validation" action="/login" method="post" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username:</label>
+                                <input class="form-control" type="text" id="username" name="username" required
+                                    autofocus>
+                                <div class="valid-feedback">
+                                    Looks Good!
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Password:</label>
+                                <input class="form-control" type="password" id="password" name="password" required>
+                                <div class="valid-feedback">
+                                    Looks Good!
+                                </div>
+                            </div>
+                            <button class="btn btn-info">Login</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--* Form Below  -->
+    <!-- <form class="needs-validation" action="/login" method="post" novalidate>
         <div class="mb-3">
             <label class="form-label" for="username">Username:</label>
             <input class="form-control" type="text" id="username" name="username" required>
@@ -16,4 +67,4 @@
             </div>
         </div>
         <button class="btn btn-info">Login</button>
-    </form>
+    </form> -->
