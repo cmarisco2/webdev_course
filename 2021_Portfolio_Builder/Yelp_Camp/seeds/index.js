@@ -43,6 +43,11 @@ const seedDB = async () => {
                     filename : "YelpCamp/gk02xrdhjarkw9tjt9od"
                 }
             ],
+            geometry: {
+                type: 'Point',
+                coordinates: [-104.9653, 39.7348]
+            },
+            // USER ID FOR CARL in mongoDB
             author: '61d34d89d0ac50a867b657c2',
             description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum officia perspiciatis natus dolore animi magnam maiores dolorem sunt similique, quaerat quasi architecto reiciendis explicabo tenetur laborum pariatur! Ea, laborum quod.',
             price
