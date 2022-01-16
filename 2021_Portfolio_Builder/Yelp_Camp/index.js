@@ -12,8 +12,8 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utilities/ExpressError');
 
 //* production vs local
-// const db_url = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
-const db_url = 'mongodb://localhost:27017/yelp-camp'
+const db_url = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+// const db_url = 'mongodb://localhost:27017/yelp-camp'
 const secret = process.env.SECRET || 'Hello_World';
 
 //* Security Middleware
