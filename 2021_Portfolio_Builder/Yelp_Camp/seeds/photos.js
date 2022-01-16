@@ -1,18 +1,17 @@
+/**
+ * Helper Module for seeds/index.js.
+ * Takes the url text and reads it as a string.
+ * Exports an array deliminated on each newline character separating the url
+ * 
+ ** 62nd Char begins filename, 91st Char ends it.
+ *
+ */
 const fs = require("fs");
-
-
 const photoString = fs.readFileSync('photo_urls.txt', 'utf8', (err, data) => {
-    if(err){
-        console.log(err)
-    } else {
-        return data;
-    }
+    err ? console.log(err) : data
 });
 
-const photosArray = photoString.split('\n');
-
-
-module.exports = photosArray;
+module.exports = photoString.split('\n');
 
 
 
